@@ -1,5 +1,7 @@
+"""Contains the MSTeamsHub class."""
+
 import json
-from typing import Callable
+from collections.abc import Callable
 import websockets
 
 from homeassistant.core import HomeAssistant
@@ -11,6 +13,7 @@ class MSTeamsHub:
     def __init__(
         self, hass: HomeAssistant, name: str, host: str, port: int, token: str
     ) -> None:
+        """Initialise the class."""
         self._host = host
         self._hass = hass
         self._name = name
@@ -29,13 +32,14 @@ class MSTeamsHub:
         return success
 
     async def update(self) -> None:
+        """Background task to loop websocket updates."""
         async for websocket in websockets.connect(self._uri):
             try:
                 self._is_active = not websocket.closed
                 async for message in websocket:
                     self._latest_message = json.loads(message)
                     await self.publish_updates()
-            except bwebsockets.WebSocketException:
+            except websockets.WebSocketException:
                 self._is_active = False
                 continue
             self._is_active = not websocket.closed
@@ -58,6 +62,7 @@ class MSTeamsHub:
         self._callbacks.discard(callback)
 
     async def publish_updates(self) -> None:
+        """Call all callbacks on update."""
         for callback in self._callbacks:
             callback()
 

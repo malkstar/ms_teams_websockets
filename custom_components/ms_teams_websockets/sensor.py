@@ -1,9 +1,9 @@
+"""Contains the Entity classes."""
+
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import STATE_UNAVAILABLE
 from homeassistant.helpers.entity import Entity
 
 from .const import DOMAIN
-from .hub import MSTeamsHub
 
 
 async def async_setup_entry(hass, config_entry: ConfigEntry, async_add_entities):
