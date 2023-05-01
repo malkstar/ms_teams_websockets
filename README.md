@@ -29,6 +29,15 @@ Follow [this guide](https://support.microsoft.com/en-us/office/connect-third-par
 
 I used the information from [this page](https://lostdomain.notion.site/Microsoft-Teams-WebSocket-API-5c042838bc3e4731bdfe679e864ab52a). Unfortunately I am unsure of the author to give proper credit.
 
+## Why?
+
+There are many ways to achieve this already, but they require running scripts or services locally and then pushing over MQTT. Other solutions using the Graph API which requires administration approval.
+
+Because this integration runs centrally, it is OS and privilege agnostic.
+
+[Powershell script which wathces log files to push over MQTT](https://github.com/AntoineGS/TeamsStatusV2)
+[Windows service which consumes websocket API and pushes over MQTT](https://github.com/lafe/Teams2Mqtt)
+[API based direct HA intergation](https://github.com/RogerSelwyn/O365-HomeAssistant)
 
 ## Roadmap
 
