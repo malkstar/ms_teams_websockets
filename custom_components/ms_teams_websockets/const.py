@@ -1,3 +1,3 @@
-"""Constants for the MS Teams Presence integration."""
+"""Constants for the MS Teams Websockets integration."""
 
-DOMAIN = "ms_teams_presence"
+DOMAIN = "ms_teams_websockets"
