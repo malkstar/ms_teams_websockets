@@ -3,7 +3,14 @@ from __future__ import annotations
 
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import Platform
+from homeassistant.const import (
+    Platform,
+    CONF_PORT,
+    CONF_HOST,
+    CONF_FRIENDLY_NAME,
+    CONF_API_TOKEN,
+)
+
 from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
@@ -18,10 +25,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     hub = MSTeamsHub(
         hass,
-        entry.data["name"],
-        entry.data["host"],
-        entry.data["port"],
-        entry.data["token"],
+        entry.data[CONF_FRIENDLY_NAME],
+        entry.data[CONF_HOST],
+        entry.data[CONF_PORT],
+        entry.data[CONF_API_TOKEN],
     )
 
     entry.async_create_background_task(hass, hub.update(), "ms_teams_update")

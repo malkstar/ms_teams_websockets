@@ -7,6 +7,7 @@ from typing import Any
 import voluptuous as vol
 
 from homeassistant import config_entries
+from homeassistant.const import CONF_PORT, CONF_HOST, CONF_FRIENDLY_NAME, CONF_API_TOKEN
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
@@ -19,10 +20,10 @@ _LOGGER = logging.getLogger(__name__)
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
-        vol.Required("name"): str,
-        vol.Required("host"): str,
-        vol.Required("port"): str,
-        vol.Required("token"): str,
+        vol.Required(CONF_FRIENDLY_NAME): str,
+        vol.Required(CONF_HOST): str,
+        vol.Required(CONF_PORT): str,
+        vol.Required(CONF_API_TOKEN): str,
     }
 )
 
@@ -34,14 +35,18 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     """
 
     ms_teams_hub = MSTeamsHub(
-        hass, data["name"], data["host"], data["port"], data["token"]
+        hass,
+        data[CONF_FRIENDLY_NAME],
+        data[CONF_HOST],
+        data[CONF_PORT],
+        data[CONF_API_TOKEN],
     )
 
     if not await ms_teams_hub.test_endpoint():
         raise InvalidAuth
 
     # Return info that you want to store in the config entry.
-    return {"title": data["name"]}
+    return {"title": data[CONF_FRIENDLY_NAME]}
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
