@@ -6,8 +6,8 @@
   ],
   "config_flow": true,
   "documentation": "https://www.github.com/malkstar/ms_teams_websockets",
-  "issue_tracker": "https://www.github.com/malkstar/ms_teams_websockets/issues",
   "iot_class": "local_push",
+  "issue_tracker": "https://www.github.com/malkstar/ms_teams_websockets/issues",
   "integration_type": "hub",
   "requirements": [
     "websockets==11.0.1"
