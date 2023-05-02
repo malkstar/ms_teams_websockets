@@ -53,6 +53,50 @@ class MSTeamsHub:
         except TypeError:
             return None
 
+    @property
+    def is_muted(self):
+        """Extract muted status from latest message."""
+        try:
+            return self._latest_message["meetingUpdate"]["meetingState"]["isMuted"]
+        except TypeError:
+            return None
+
+    @property
+    def is_camera_on(self):
+        """Extract camera status from latest message."""
+        try:
+            return self._latest_message["meetingUpdate"]["meetingState"]["isCameraOn"]
+        except TypeError:
+            return None
+
+    @property
+    def is_hand_raised(self):
+        """Extract hand raised status from latest message."""
+        try:
+            return self._latest_message["meetingUpdate"]["meetingState"]["isHandRaised"]
+        except TypeError:
+            return None
+
+    @property
+    def is_recording_on(self):
+        """Extract recording status from latest message."""
+        try:
+            return self._latest_message["meetingUpdate"]["meetingState"][
+                "isRecordingOn"
+            ]
+        except TypeError:
+            return None
+
+    @property
+    def is_background_blurred(self):
+        """Extract background blur status from latest message."""
+        try:
+            return self._latest_message["meetingUpdate"]["meetingState"][
+                "isBackgroundBlurred"
+            ]
+        except TypeError:
+            return None
+
     def register_callback(self, callback: Callable[[], None]) -> None:
         """Register callback called when the state changes."""
         self._callbacks.add(callback)
