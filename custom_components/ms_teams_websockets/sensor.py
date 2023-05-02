@@ -10,7 +10,16 @@ async def async_setup_entry(hass, config_entry: ConfigEntry, async_add_entities)
     """Add sensors for passed config_entry in HA."""
     hub = hass.data[DOMAIN][config_entry.entry_id]
 
-    async_add_entities([InMeetingEntity(hub)])
+    async_add_entities(
+        [
+            InMeetingEntity(hub),
+            MutedEntity(hub),
+            CameraOnEntity(hub),
+            HandRaisedEntity(hub),
+            RecordingOnEntity(hub),
+            BackgroundBlurredEntity(hub),
+        ]
+    )
 
 
 class SensorBase(Entity):
