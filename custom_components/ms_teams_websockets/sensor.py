@@ -58,3 +58,83 @@ class InMeetingEntity(SensorBase):
         """Return the state of the sensor."""
 
         return self._hub.is_in_meeting
+
+
+class MutedEntity(SensorBase):
+    """Muted entity."""
+
+    def __init__(self, hub):
+        """Initialize the sensor."""
+        super().__init__(hub)
+        self._attr_unique_id = f"{hub._name}_is_muted"
+        self._attr_name = f"{hub._name} is muted"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+
+        return self._hub.is_muted
+
+
+class CameraOnEntity(SensorBase):
+    """Camera on entity."""
+
+    def __init__(self, hub):
+        """Initialize the sensor."""
+        super().__init__(hub)
+        self._attr_unique_id = f"{hub._name}_has_camera_on"
+        self._attr_name = f"{hub._name} has camera on"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+
+        return self._hub.is_camera_on
+
+
+class HandRaisedEntity(SensorBase):
+    """Hand raised entity."""
+
+    def __init__(self, hub):
+        """Initialize the sensor."""
+        super().__init__(hub)
+        self._attr_unique_id = f"{hub._name}_has_hand_raised"
+        self._attr_name = f"{hub._name} has hand raised"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+
+        return self._hub.is_hand_raised
+
+
+class RecordingOnEntity(SensorBase):
+    """Recording on entity."""
+
+    def __init__(self, hub):
+        """Initialize the sensor."""
+        super().__init__(hub)
+        self._attr_unique_id = f"{hub._name}_has_recording_on"
+        self._attr_name = f"{hub._name} has recording on"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+
+        return self._hub.is_recording_on
+
+
+class BackgroundBlurredEntity(SensorBase):
+    """Background blurred entity."""
+
+    def __init__(self, hub):
+        """Initialize the sensor."""
+        super().__init__(hub)
+        self._attr_unique_id = f"{hub._name}_has_background_blurred"
+        self._attr_name = f"{hub._name} has background blurred"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+
+        return self._hub.is_background_blurred
