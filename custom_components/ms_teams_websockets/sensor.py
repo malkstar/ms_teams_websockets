@@ -47,8 +47,6 @@ class SensorBase(Entity):
 class InMeetingEntity(SensorBase):
     """In meeting entity."""
 
-    should_poll = False
-
     def __init__(self, hub):
         """Initialize the sensor."""
         super().__init__(hub)
