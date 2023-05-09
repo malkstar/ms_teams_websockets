@@ -1,12 +1,18 @@
 """Contains the Entity classes."""
 
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo, Entity
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN
 
 
-async def async_setup_entry(hass, config_entry: ConfigEntry, async_add_entities):
+async def async_setup_entry(
+    hass: HomeAssistant,
+    config_entry: ConfigEntry,
+    async_add_entities: AddEntitiesCallback,
+) -> None:
     """Add sensors for passed config_entry in HA."""
     hub = hass.data[DOMAIN][config_entry.entry_id]
 
@@ -27,7 +33,7 @@ class SensorBase(Entity):
 
     should_poll = False
 
-    def __init__(self, hub):
+    def __init__(self, hub) -> None:
         """Initialize the sensor."""
         self._hub = hub
 
@@ -46,11 +52,11 @@ class SensorBase(Entity):
         """Return True if websocket is available."""
         return self._hub.available
 
-    async def async_added_to_hass(self):
+    async def async_added_to_hass(self) -> None:
         """Run when this Entity has been added to HA."""
         self._hub.register_callback(self.async_write_ha_state)
 
-    async def async_will_remove_from_hass(self):
+    async def async_will_remove_from_hass(self) -> None:
         """Entity being removed from hass."""
         self._hub.remove_callback(self.async_write_ha_state)
 
@@ -58,14 +64,14 @@ class SensorBase(Entity):
 class InMeetingEntity(SensorBase):
     """In meeting entity."""
 
-    def __init__(self, hub):
+    def __init__(self, hub) -> None:
         """Initialize the sensor."""
         super().__init__(hub)
         self._attr_unique_id = f"{hub._name}_is_in_meeting"
         self._attr_name = f"{hub._name} is in meeting"
 
     @property
-    def state(self):
+    def state(self) -> bool:
         """Return the state of the sensor."""
 
         return self._hub.is_in_meeting
@@ -74,14 +80,14 @@ class InMeetingEntity(SensorBase):
 class MutedEntity(SensorBase):
     """Muted entity."""
 
-    def __init__(self, hub):
+    def __init__(self, hub) -> None:
         """Initialize the sensor."""
         super().__init__(hub)
         self._attr_unique_id = f"{hub._name}_is_muted"
         self._attr_name = f"{hub._name} is muted"
 
     @property
-    def state(self):
+    def state(self) -> bool:
         """Return the state of the sensor."""
 
         return self._hub.is_muted
@@ -90,14 +96,14 @@ class MutedEntity(SensorBase):
 class CameraOnEntity(SensorBase):
     """Camera on entity."""
 
-    def __init__(self, hub):
+    def __init__(self, hub) -> None:
         """Initialize the sensor."""
         super().__init__(hub)
         self._attr_unique_id = f"{hub._name}_has_camera_on"
         self._attr_name = f"{hub._name} has camera on"
 
     @property
-    def state(self):
+    def state(self) -> bool:
         """Return the state of the sensor."""
 
         return self._hub.is_camera_on
@@ -106,14 +112,14 @@ class CameraOnEntity(SensorBase):
 class HandRaisedEntity(SensorBase):
     """Hand raised entity."""
 
-    def __init__(self, hub):
+    def __init__(self, hub) -> None:
         """Initialize the sensor."""
         super().__init__(hub)
         self._attr_unique_id = f"{hub._name}_has_hand_raised"
         self._attr_name = f"{hub._name} has hand raised"
 
     @property
-    def state(self):
+    def state(self) -> bool:
         """Return the state of the sensor."""
 
         return self._hub.is_hand_raised
@@ -122,14 +128,14 @@ class HandRaisedEntity(SensorBase):
 class RecordingOnEntity(SensorBase):
     """Recording on entity."""
 
-    def __init__(self, hub):
+    def __init__(self, hub) -> None:
         """Initialize the sensor."""
         super().__init__(hub)
         self._attr_unique_id = f"{hub._name}_has_recording_on"
         self._attr_name = f"{hub._name} has recording on"
 
     @property
-    def state(self):
+    def state(self) -> bool:
         """Return the state of the sensor."""
 
         return self._hub.is_recording_on
@@ -138,14 +144,14 @@ class RecordingOnEntity(SensorBase):
 class BackgroundBlurredEntity(SensorBase):
     """Background blurred entity."""
 
-    def __init__(self, hub):
+    def __init__(self, hub) -> None:
         """Initialize the sensor."""
         super().__init__(hub)
         self._attr_unique_id = f"{hub._name}_has_background_blurred"
         self._attr_name = f"{hub._name} has background blurred"
 
     @property
-    def state(self):
+    def state(self) -> bool:
         """Return the state of the sensor."""
 
         return self._hub.is_background_blurred
