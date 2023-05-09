@@ -1,7 +1,8 @@
 """Contains the Entity classes."""
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.helpers.entity import Entity
+from homeassistant.helpers.device_registry import DeviceEntryType
+from homeassistant.helpers.entity import DeviceInfo, Entity
 
 from .const import DOMAIN
 
@@ -32,12 +33,14 @@ class SensorBase(Entity):
         self._hub = hub
 
     @property
-    def device_info(self):
+    def device_info(self) -> DeviceInfo:
         """Return information to link this entity with the correct device."""
-        return {
-            "identifiers": {(DOMAIN, self._hub._id)},
-            "name": f"Teams {self._hub._name}",
-        }
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._hub._id)},
+            model=f"{self._hub._name} client at {self._hub._host}",
+            name=f"{self._hub._name} Teams",
+            manufacturer="Microsoft Teams",
+        )
 
     @property
     def available(self) -> bool:
