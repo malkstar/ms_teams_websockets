@@ -2,10 +2,11 @@
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity import DeviceInfo, Entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+
 from .const import DOMAIN
+from .entity import MSTeamsBaseEntity
 
 
 async def async_setup_entry(
@@ -28,40 +29,7 @@ async def async_setup_entry(
     )
 
 
-class SensorBase(Entity):
-    """Base clase for the MS teams sensors."""
-
-    should_poll = False
-
-    def __init__(self, hub) -> None:
-        """Initialize the sensor."""
-        self._hub = hub
-
-    @property
-    def device_info(self) -> DeviceInfo:
-        """Return information to link this entity with the correct device."""
-        return DeviceInfo(
-            identifiers={(DOMAIN, self._hub._id)},
-            model=f"{self._hub._name} client at {self._hub._host}",
-            name=f"{self._hub._name} Teams",
-            manufacturer="Microsoft Teams",
-        )
-
-    @property
-    def available(self) -> bool:
-        """Return True if websocket is available."""
-        return self._hub.available
-
-    async def async_added_to_hass(self) -> None:
-        """Run when this Entity has been added to HA."""
-        self._hub.register_callback(self.async_write_ha_state)
-
-    async def async_will_remove_from_hass(self) -> None:
-        """Entity being removed from hass."""
-        self._hub.remove_callback(self.async_write_ha_state)
-
-
-class InMeetingEntity(SensorBase):
+class InMeetingEntity(MSTeamsBaseEntity):
     """In meeting entity."""
 
     def __init__(self, hub) -> None:
@@ -77,7 +45,7 @@ class InMeetingEntity(SensorBase):
         return self._hub.is_in_meeting
 
 
-class MutedEntity(SensorBase):
+class MutedEntity(MSTeamsBaseEntity):
     """Muted entity."""
 
     def __init__(self, hub) -> None:
@@ -93,7 +61,7 @@ class MutedEntity(SensorBase):
         return self._hub.is_muted
 
 
-class CameraOnEntity(SensorBase):
+class CameraOnEntity(MSTeamsBaseEntity):
     """Camera on entity."""
 
     def __init__(self, hub) -> None:
@@ -109,7 +77,7 @@ class CameraOnEntity(SensorBase):
         return self._hub.is_camera_on
 
 
-class HandRaisedEntity(SensorBase):
+class HandRaisedEntity(MSTeamsBaseEntity):
     """Hand raised entity."""
 
     def __init__(self, hub) -> None:
@@ -125,7 +93,7 @@ class HandRaisedEntity(SensorBase):
         return self._hub.is_hand_raised
 
 
-class RecordingOnEntity(SensorBase):
+class RecordingOnEntity(MSTeamsBaseEntity):
     """Recording on entity."""
 
     def __init__(self, hub) -> None:
@@ -141,7 +109,7 @@ class RecordingOnEntity(SensorBase):
         return self._hub.is_recording_on
 
 
-class BackgroundBlurredEntity(SensorBase):
+class BackgroundBlurredEntity(MSTeamsBaseEntity):
     """Background blurred entity."""
 
     def __init__(self, hub) -> None:
