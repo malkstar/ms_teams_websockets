@@ -1,6 +1,6 @@
 {
   "domain": "ms_teams_websockets",
-  "name": "MS Teams Websockets",
+  "name": "Microsoft Teams (Local Websockets)",
   "codeowners": [
     "@malkstar"
   ],
