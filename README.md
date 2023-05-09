@@ -3,7 +3,7 @@
 
 # Teams Websockets integration
 
-This integration exposes your Teams client's local websockets API data in Home Assistant sensors.
+This integration exposes your Teams client's local websockets API data as Home Assistant sensors.
 
 
 ## Installation
@@ -35,9 +35,11 @@ There are many ways to achieve this already, but they require running scripts or
 
 Because this integration runs centrally, it is OS and privilege agnostic.
 
-[Powershell script which wathces log files to push over MQTT](https://github.com/AntoineGS/TeamsStatusV2)
+[Powershell script which watches log files to push over MQTT](https://github.com/AntoineGS/TeamsStatusV2)
+
 [Windows service which consumes websocket API and pushes over MQTT](https://github.com/lafe/Teams2Mqtt)
-[API based direct HA intergation](https://github.com/RogerSelwyn/O365-HomeAssistant)
+
+[Cloud API based direct HA intergation](https://github.com/RogerSelwyn/O365-HomeAssistant)
 
 ## Roadmap
 
