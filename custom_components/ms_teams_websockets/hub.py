@@ -20,8 +20,13 @@ class MSTeamsHub:
         self._uri = f"ws://{host}:{port}?token={token}&protocol-version=1.0.0&manufacturer=MuteDeck&device=MuteDeck&app=MuteDeck&app-version=1.4"
         self._id = host.lower()
         self._callbacks = set()
-        self._latest_message = None
         self._is_active = False
+        self._is_in_meeting = False
+        self._is_muted = False
+        self._is_camera_on = False
+        self._is_hand_raised = False
+        self._is_recording_on = False
+        self._is_background_blurred = False
 
     async def test_endpoint(self) -> bool:
         """Test if we can subscribe to the websocket."""
@@ -37,7 +42,14 @@ class MSTeamsHub:
             try:
                 self._is_active = not websocket.closed
                 async for message in websocket:
-                    self._latest_message = json.loads(message)
+                    latest_message = json.loads(message)
+                    meeting_state = latest_message["meetingUpdate"]["meetingState"]
+                    self._is_in_meeting = meeting_state["isInMeeting"]
+                    self._is_muted = meeting_state["isMuted"]
+                    self._is_camera_on = meeting_state["isCameraOn"]
+                    self._is_hand_raised = meeting_state["isHandRaised"]
+                    self._is_recording_on = meeting_state["isRecordingOn"]
+                    self._is_background_blurred = meeting_state["isBackgroundBlurred"]
                     await self.publish_updates()
             except websockets.WebSocketException:
                 self._is_active = False
@@ -46,56 +58,34 @@ class MSTeamsHub:
             await self.publish_updates()
 
     @property
-    def is_in_meeting(self):
-        """Extract meeting status from latest message."""
-        try:
-            return self._latest_message["meetingUpdate"]["meetingState"]["isInMeeting"]
-        except TypeError:
-            return None
+    def is_in_meeting(self) -> bool:
+        """Return meeting status from latest message."""
+        return self._is_in_meeting
 
     @property
-    def is_muted(self):
-        """Extract muted status from latest message."""
-        try:
-            return self._latest_message["meetingUpdate"]["meetingState"]["isMuted"]
-        except TypeError:
-            return None
+    def is_muted(self) -> bool:
+        """Return muted status from latest message."""
+        return self._is_muted
 
     @property
-    def is_camera_on(self):
-        """Extract camera status from latest message."""
-        try:
-            return self._latest_message["meetingUpdate"]["meetingState"]["isCameraOn"]
-        except TypeError:
-            return None
+    def is_camera_on(self) -> bool:
+        """Return camera status from latest message."""
+        return self._is_camera_on
 
     @property
-    def is_hand_raised(self):
-        """Extract hand raised status from latest message."""
-        try:
-            return self._latest_message["meetingUpdate"]["meetingState"]["isHandRaised"]
-        except TypeError:
-            return None
+    def is_hand_raised(self) -> bool:
+        """Return hand raised status from latest message."""
+        return self._is_hand_raised
 
     @property
-    def is_recording_on(self):
-        """Extract recording status from latest message."""
-        try:
-            return self._latest_message["meetingUpdate"]["meetingState"][
-                "isRecordingOn"
-            ]
-        except TypeError:
-            return None
+    def is_recording_on(self) -> bool:
+        """Return recording status from latest message."""
+        return self._is_recording_on
 
     @property
-    def is_background_blurred(self):
-        """Extract background blur status from latest message."""
-        try:
-            return self._latest_message["meetingUpdate"]["meetingState"][
-                "isBackgroundBlurred"
-            ]
-        except TypeError:
-            return None
+    def is_background_blurred(self) -> bool:
+        """Return background blur status from latest message."""
+        return self._is_background_blurred
 
     def register_callback(self, callback: Callable[[], None]) -> None:
         """Register callback called when the state changes."""
