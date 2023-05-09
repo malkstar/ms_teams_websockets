@@ -1,7 +1,6 @@
 """Contains the Entity classes."""
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.helpers.device_registry import DeviceEntryType
 from homeassistant.helpers.entity import DeviceInfo, Entity
 
 from .const import DOMAIN
