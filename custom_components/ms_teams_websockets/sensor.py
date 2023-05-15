@@ -14,7 +14,7 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Add sensors for passed config_entry in HA."""
+    """Add sensors for setup hub object."""
     hub = hass.data[DOMAIN][config_entry.entry_id]
 
     async_add_entities(

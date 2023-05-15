@@ -8,7 +8,6 @@ from homeassistant.components.button import (
     ButtonEntityDescription,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -20,14 +19,14 @@ from .hub import MSTeamsHub
 
 @dataclass
 class MSTeamsButtonDescriptionMixin:
-    """"""
+    """Mixin to add action_data to ButtonEntityDescription class."""
 
     action_data: dict
 
 
 @dataclass
 class MSTeamsButtonDescription(ButtonEntityDescription, MSTeamsButtonDescriptionMixin):
-    """"""
+    """Class for adding Mixin class to base ButtonEntityDescription."""
 
 
 BUTTONS: tuple[MSTeamsButtonDescription] = (
@@ -100,7 +99,7 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """"""
+    """Add buttons for setup hub object."""
 
     hub = hass.data[const.DOMAIN][config_entry.entry_id]
 
@@ -108,7 +107,7 @@ async def async_setup_entry(
 
 
 class TeamsButton(MSTeamsBaseEntity, ButtonEntity):
-    """"""
+    """Button class which will run the hub.perform_action method with configured description action_data."""
 
     def __init__(
         self,
