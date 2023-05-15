@@ -4,7 +4,11 @@ import json
 from collections.abc import Callable
 import websockets
 
+from datetime import datetime
+
 from homeassistant.core import HomeAssistant
+
+from . import const
 
 
 class MSTeamsHub:
@@ -86,6 +90,13 @@ class MSTeamsHub:
     def is_background_blurred(self) -> bool:
         """Return background blur status from latest message."""
         return self._is_background_blurred
+
+    async def perform_action(self, message) -> None:
+        """Send a constructed message to the websockets endpoint."""
+        message.update(const.ACTION_BASE_MESSAGE)
+        message["timestamp"] = datetime.now().timestamp()
+        async with websockets.connect(self._uri) as websocket:
+            await websocket.send(json.dumps(message))
 
     def register_callback(self, callback: Callable[[], None]) -> None:
         """Register callback called when the state changes."""
