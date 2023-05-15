@@ -5,6 +5,9 @@
 
 This integration exposes your Teams client's local websockets API data as Home Assistant sensors.
 
+All sensors offered by the API are available.
+
+Buttons are also offered to provide access to actions which are available using the API.
 
 ## Installation
 
@@ -40,7 +43,3 @@ Because this integration runs centrally, it is OS and privilege agnostic.
 [Windows service which consumes websocket API and pushes over MQTT](https://github.com/lafe/Teams2Mqtt)
 
 [Cloud API based direct HA intergation](https://github.com/RogerSelwyn/O365-HomeAssistant)
-
-## Roadmap
-
-I plan to implement all the data returned as sensors, and eventually make the actions available too.
