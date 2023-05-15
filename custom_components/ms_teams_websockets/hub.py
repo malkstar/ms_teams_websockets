@@ -1,9 +1,9 @@
 """Contains the MSTeamsHub class."""
 
 import json
-from collections.abc import Callable
 import websockets
 
+from collections.abc import Callable
 from datetime import datetime
 
 from homeassistant.core import HomeAssistant
