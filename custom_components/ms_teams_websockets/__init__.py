@@ -17,7 +17,7 @@ from .const import DOMAIN
 from .hub import MSTeamsHub
 
 
-PLATFORMS: list[Platform] = [Platform.SENSOR]
+PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.BUTTON]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
